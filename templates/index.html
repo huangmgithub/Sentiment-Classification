@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>文本摘要</title>
+    <link rel="stylesheet" href="/static/index/iconfonts/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/static/index/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/static/index/css/style.css">
+    <link rel="stylesheet" href="/static/d3/d3.css">
+
+</head>
+<body>
+<div class="container-scroller">
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="#"><img src="/static/index/images/Git.svg" alt="logo"/></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-toggle="dropdown"
+                       aria-expanded="false">
+                        <div class="nav-profile-img">
+                            <img src="/static/index/images/face1.png" alt="image">
+                            <span class="availability-status online"></span>
+                        </div>
+                        <div class="nav-profile-text">
+                            <p class="mb-1 text-black">Rose</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="/logout">
+                            <i class="mdi mdi-logout mr-2 text-primary"></i>
+                            Signout
+                        </a>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <div class="container-fluid page-body-wrapper">
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <a href="#" class="nav-link">
+                        <div class="nav-profile-image">
+                            <img src="/static/index/images/face1.png" alt="profile">
+                            <span class="login-status online"></span> <!--change to offline or busy as needed-->
+                        </div>
+                        <div class="nav-profile-text d-flex flex-column">
+                            <span class="font-weight-bold mb-2">Rose</span>
+                            <span class="text-secondary text-small">无名之辈</span>
+                        </div>
+                        <i class="mdi mdi-bookmark-check text-success nav-profile-badge"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#"><img src="/static/index/images/QQ.svg" alt="logo" style="width: 22px;height: 22px;margin-left: 12px"></a>
+                    <a href="#"><img src="/static/index/images/weixin.svg" alt="logo" style="width: 22px;height: 22px;margin-left: 12px"></a>
+                    <a href="#"><img src="/static/index/images/weibo.svg" alt="logo" style="width: 22px;height: 22px;margin-left: 12px"></a>
+                    <a href="#"><img src="/static/index/images/github.svg" alt="logo" style="width: 22px;height: 22px;margin-left: 12px"></a>
+                    <a href="#"><img src="/static/index/images/douyin.svg" alt="logo" style="width: 22px;height: 22px;margin-left: 12px"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/index">
+                        <span class="menu-title">情感分类</span>
+                        <i class="mdi mdi-home menu-icon"></i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            <h3 class="page-header">大众评论分类</h3>
+            <div class="form-horizontal" style="margin-left: 10px">
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label" style="margin-bottom:15px;font-weight:800;font-size: 16px">评论</label>
+                    <div>
+                        <div id="comment-id" style="display: none"></div>
+                        <textarea id="comment-txt" class="form-control" rows="12" style="width: 1150px;"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div>
+                        <button id="sub1" class="btn btn-info btn-sm" style="margin-bottom: 3px">随机获取评论</button>
+                        <button id='sub2' class="btn btn-warning btn-sm" style="margin-bottom: 3px">情感分析</button>
+                    </div>
+                </div>
+            </div>
+            <div class="form-horizontal" style="margin-left: 10px">
+                <div class="form-group">
+                    <label for="inputEmail3" class="control-label" style="font-weight:800;font-size: 16px">结果</label>
+                    <div id="tree-container" style="display: none;width: 800px;height: 200px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/static/index/js/vendor.bundle.base.js"></script>
+<script src="/static/index/js/vendor.bundle.addons.js"></script>
+<script src="/static/index/js/off-canvas.js"></script>
+<script src="/static/index/js/misc.js"></script>
+<script src="/static/index/js/dashboard.js"></script>
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="/static/js/bootstrap.js"></script>
+<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="/static/d3/dndTree.js"></script>
+<script>
+        // 页面加载完毕后执行
+        $(function () {
+            bindSubmit1();  //获取评论
+            bindSubmit2();  //获取评论分类结果
+        });
+
+        //绑定提交
+        function bindSubmit1() {
+            $('#sub1').click(function () {
+                $.ajax({
+                    url: "/comments",
+                    type: 'GET',
+                    success: function (arg) {
+                        //arg是字符串
+                        //JSON.parse将字符串转换成字典，相当于json.loads
+                        // 这里arg居然是对象。。。浪费时间
+                        //var dict = JSON.parse(arg);
+                        if (arg.status) {
+                            $('#comment-txt').empty(); //清除前面的显示结果
+                            console.log(arg.text);
+                            var comments = arg.text;
+                            var cid = arg.id;
+                            {#window.location.reload();#}
+                            $("#comment-txt").val(comments);
+                            $("#comment-id").val(cid);
+                            $("#tree-container").css("display","none");
+                        }
+                    }
+                })
+            })
+        }
+        //绑定提交
+        function bindSubmit2() {
+            $('#sub2').click(function () {
+                var id = $("#comment-id").val();
+                $.ajax({
+                    url: "/results",
+                    type: 'POST',
+                    data: {"id":id},
+                    dataType: "JSON",
+                    success: function (arg) {
+                        //arg是字符串
+                        //JSON.parse将字符串转换成字典，相当于json.loads
+                        // 这里arg居然是对象。。。浪费时间
+                        //var dict = JSON.parse(arg);
+                        if (arg.status) {
+                            $("#tree-container").css("display","block")
+                        }
+                    }
+                })
+            })
+        }
+    </script>
+
+</body>
+
+</html>
